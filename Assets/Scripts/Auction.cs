@@ -17,4 +17,5 @@ public class Auction : MonoBehaviour {
 	void Update () {
 		
 	}
+
 }
