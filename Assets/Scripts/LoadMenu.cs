@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadMenu : MonoBehaviour {
 
+    // Load Functions for each of the diffrent screens
     public void LoadGameMenu() {
         SceneManager.LoadScene("Menu");
     }
