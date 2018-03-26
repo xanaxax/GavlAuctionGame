@@ -19,12 +19,4 @@ public static class FBAppEvents
         param[EVENT_PARAM_SCORE] = score;
         FB.LogAppEvent(EVENT_NAME_GAME_PLAYED, null, param);
     }
-
-    // Microtransaction
-    public static void SpentCoins (int coins, string item)
-    {
-        var param = new Dictionary<string, object>();
-        param[AppEventParameterName.ContentID] = item;
-        FB.LogAppEvent(AppEventName.SpentCredits, (float)coins, param);
-    }
 }
