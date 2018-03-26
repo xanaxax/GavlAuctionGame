@@ -15,20 +15,16 @@ public static class FBAppEvents
 
     public static void GameComplete (int score)
     {
-        // setup parameters
         var param = new Dictionary<string, object>();
         param[EVENT_PARAM_SCORE] = score;
-        // log event
         FB.LogAppEvent(EVENT_NAME_GAME_PLAYED, null, param);
     }
 
-    // Appevent for microtranaction
+    // Microtransaction
     public static void SpentCoins (int coins, string item)
     {
-        // setup parameters
         var param = new Dictionary<string, object>();
         param[AppEventParameterName.ContentID] = item;
-        // log event
         FB.LogAppEvent(AppEventName.SpentCredits, (float)coins, param);
     }
 }
