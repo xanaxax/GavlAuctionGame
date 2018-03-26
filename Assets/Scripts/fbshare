@@ -1,0 +1,41 @@
+using UnityEngine;
+using System;
+using System.Collections.Generic;
+using Facebook.Unity;
+
+public static class FBShare
+{
+
+    // Share scores to Facebook
+    public static void PostScore (int score, Action callback = null)
+    {
+        if (FBLogin.HavePublishActions)
+        {
+            var query = new Dictionary<string, string>();
+            query["score"] = score.ToString();
+            FB.API(
+                "/me/scores",
+                HttpMethod.POST,
+                delegate(IGraphResult result)
+            {
+                Debug.Log("PostScore Result: " + result.RawResult);
+                FBGraph.GetScores();
+            },
+            query
+            );
+        }
+        else
+        {
+            PopupScript.SetPopup("Prompting for Publish Permissions for Scores API", 4f, delegate
+            {
+                FBLogin.PromptForPublish(delegate
+                                         {
+                    if (FBLogin.HavePublishActions)
+                    {
+                        PostScore(score);
+                    }
+                });
+            });
+        }
+    }
+}
