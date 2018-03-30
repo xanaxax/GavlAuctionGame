@@ -48,7 +48,7 @@ public class Auction : MonoBehaviour {
 		}
 
 		else {
-			bidincrease = Random.Range (100000, 200000);
+			bidincrease = Random.Range (100000, 500000);
 			bidnumber = bidnumber + bidincrease;
 			LogText.GetComponent<Text> ().text += "\n New bid: $" + bidnumber; 
 			//return the Firebase server with user's new bid number
