@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NotificationServices = UnityEngine.iOS.NotificationServices;
+using NotificationType = UnityEngine.iOS.NotificationType;
+using LocalNotification = UnityEngine.iOS.LocalNotification;
 //using Firebase;
 //using Firebase.Database;
 //using Firebase.Unity.Editor;
@@ -28,18 +31,67 @@ public class Auction : MonoBehaviour {
 	public int reserveprice;
 	public int anverageprice = 50000;
 	public int housesupply = 10;
+	public string randomnewstext;
 
 	void start (){
+
 	}
 
 	void Update(){
 		if (Time.time > 2 && auctionwait == false) {
 			auctionopen = true;
 		}
+		//check pre-auction wait is over or not
 		if (auctionwait == true && (Time.time - auctiontime) > 10) {
 			auctionend = true;
 		}
-		//random news event codes enters here
+		//check auction is over or not
+		if (NotificationServices.localNotificationCount > 0) {
+			Debug.Log(NotificationServices.localNotifications[0].alertBody);
+			NotificationServices.ClearLocalNotifications();
+		}
+		//push iOS notifications
+		if ((Time.time / 60) % 5 == 0){
+			var notif = new LocalNotification();
+			notif.fireDate = System.DateTime.Now.AddSeconds(0);
+			var rad = (int) Random.Range (0, 9);
+			switch (rad) 
+			{
+			case 0:
+				randomnewstext = "NewsTexts0";
+				break;
+			case 1:
+				randomnewstext = "NewsTexts1";
+				break;
+			case 2:
+				randomnewstext = "NewsTexts2";
+				break;
+			case 3:
+				randomnewstext = "NewsTexts3";
+				break;
+			case 4:
+				randomnewstext = "NewsTexts4";
+				break;
+			case 5:
+				randomnewstext = "NewsTexts5";
+				break;
+			case 6:
+				randomnewstext = "NewsTexts6";
+				break;
+			case 7:
+				randomnewstext = "NewsTexts7";
+				break;
+			case 8:
+				randomnewstext = "NewsTexts8";
+				break;
+			case 9:
+				randomnewstext = "NewsTexts9";
+				break;
+			}
+			notif.alertBody = randomnewstext;
+			NotificationServices.ScheduleLocalNotification(notif);
+			// random news event iOS notification to be delivered for every 5 minutes
+		}
 	}
 
 	public void RandomGenerate()
@@ -98,6 +150,7 @@ public class Auction : MonoBehaviour {
 		}
 		//dynamic agent fees
 		userbalance = userbalance + (int) ((housevalue - agentfees) * luxuryrate);
+
 	}
 
 }
