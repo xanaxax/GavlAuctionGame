@@ -22,6 +22,12 @@ public class Auction : MonoBehaviour {
 	public bool auctionwait = false;
 	public bool auctionend = false;
 	public float auctiontime;
+	public float luxuryrate = 1;
+	public float randomluxuryrate;
+	public double agentfees = 10000;
+	public int reserveprice;
+	public int anverageprice = 50000;
+	public int housesupply = 10;
 
 	void start (){
 	}
@@ -33,6 +39,7 @@ public class Auction : MonoBehaviour {
 		if (auctionwait == true && (Time.time - auctiontime) > 10) {
 			auctionend = true;
 		}
+		//random news event codes enters here
 	}
 
 	public void RandomGenerate()
@@ -70,5 +77,27 @@ public class Auction : MonoBehaviour {
 			LogText.GetComponent<Text> ().text += "\n Your Account Balance" + userbalance;
 		}
 	}
-		
+	public void Sellinghouse()
+	{
+		reserveprice = Random.Range (10000, 20000);
+		housesupply = (int) (1/(reserveprice / 10000 - 1) * housesupply);
+		//the higher reserve price goes, the less houses appear in the area.
+		// if (housesupply < 1){} Triggers Hosing supply shortage news
+		anverageprice = (int) ( (reserveprice / 10000 - 0.5) * anverageprice);
+		//the higher reserve price goees, the higher anverage price rises.
+		if (anverageprice > 1000000) {
+			randomluxuryrate = Random.Range (0, 1);
+			//if random price too high triggers luxury tax event
+		}
+		if (randomluxuryrate < 0.1) {
+			luxuryrate = luxuryrate - randomluxuryrate;
+		}
+		//seller will be hit with a 10% chance of luxury tax up to 10%.
+		if (housevalue < 1000000){
+			agentfees = housevalue * 0.01;
+		}
+		//dynamic agent fees
+		userbalance = userbalance + (int) ((housevalue - agentfees) * luxuryrate);
+	}
+
 }
