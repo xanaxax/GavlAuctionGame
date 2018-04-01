@@ -25,6 +25,7 @@ public class Auction : MonoBehaviour {
 	public bool auctionwait = false;
 	public bool auctionend = false;
 	public float auctiontime;
+
 	public float luxuryrate = 1;
 	public float randomluxuryrate;
 	public double agentfees = 10000;
@@ -41,6 +42,7 @@ public class Auction : MonoBehaviour {
 		if (Time.time > 2 && auctionwait == false) {
 			auctionopen = true;
 		}
+
 		//check pre-auction wait is over or not
 		if (auctionwait == true && (Time.time - auctiontime) > 10) {
 			auctionend = true;
@@ -92,6 +94,7 @@ public class Auction : MonoBehaviour {
 			NotificationServices.ScheduleLocalNotification(notif);
 			// random news event iOS notification to be delivered for every 5 minutes
 		}
+
 	}
 
 	public void RandomGenerate()
@@ -151,6 +154,18 @@ public class Auction : MonoBehaviour {
 		//dynamic agent fees
 		userbalance = userbalance + (int) ((housevalue - agentfees) * luxuryrate);
 
+
+		}
+		if(auctionopen == false) {
+			LogText.GetComponent<Text> ().text += "\n Bidding not ready!";
+		}
+		if(auctionend == true) {
+			LogText.GetComponent<Text> ().text += "\n Bidding Finished!";
+			housevalue = Random.Range (500000, 1000000);
+			userbalance = userbalance - bidnumber;
+			userbalance = userbalance + (int) (housevalue * 0.9);
+			LogText.GetComponent<Text> ().text += "\n Your Account Balance" + userbalance;
+		}
 	}
 
 }
